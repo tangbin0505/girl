@@ -1,14 +1,22 @@
-package com.elineball.girl;
+package com.elineball.girl.controller;
 
+import com.elineball.girl.aspect.HttpAspect;
+import com.elineball.girl.domain.Girl;
+import com.elineball.girl.repository.GirlRepository;
+import com.elineball.girl.service.GirlService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.xml.ws.Action;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 public class GirlController {
+
+    private final static Logger logger = LoggerFactory.getLogger(GirlController.class);
 
     @Autowired
     private GirlRepository girlRepository;
@@ -22,21 +30,24 @@ public class GirlController {
      */
     @GetMapping(value = "/girls")
     public List<Girl> girlList(){
+        //System.out.println("girlList");
+        logger.info("girlList");
         return girlRepository.findAll();
     }
 
     /**
      * 创建一个女生
-     * @param cupSize
-     * @param age
      * @return
      */
     @PostMapping(value = "/girls")
-    public Girl girlAdd(@RequestParam ("cupSize") String cupSize,
-                        @RequestParam ("age") Integer age){
-        Girl girl = new Girl();
-        girl.setCupSize(cupSize);
-        girl.setAge(age);
+    public Girl girlAdd(@Valid Girl girl, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            //获取错误信息
+            System.out.println(bindingResult.getFieldError().getDefaultMessage());
+            return null;
+        }
+        girl.setCupSize(girl.getCupSize());
+        girl.setAge(girl.getAge());
         return girlRepository.save(girl);
     }
 

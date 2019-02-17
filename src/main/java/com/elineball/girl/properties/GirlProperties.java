@@ -1,4 +1,4 @@
-package com.elineball.girl;
+package com.elineball.girl.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

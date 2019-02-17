@@ -1,5 +1,6 @@
-package com.elineball.girl;
+package com.elineball.girl.repository;
 
+import com.elineball.girl.domain.Girl;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
